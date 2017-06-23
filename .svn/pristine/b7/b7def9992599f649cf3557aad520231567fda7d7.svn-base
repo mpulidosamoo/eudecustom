@@ -1,0 +1,167 @@
+<?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * Moodle modal window with call dates for payment gallery.
+ *
+ * @package    local_eudecustom
+ * @copyright  2017 Planificacion de Entornos Tecnologicos SL
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+require_once(dirname(__FILE__) . '/../../config.php');
+require_once(__DIR__ . '/utils.php');
+require_once($CFG->dirroot . '/my/lib.php');
+require_once($CFG->dirroot . '/tag/lib.php');
+require_once($CFG->dirroot . '/user/profile/lib.php');
+require_once($CFG->libdir . '/filelib.php');
+
+
+require_login(null, false, null, false, true);
+
+$PAGE->set_context(context_system::instance());
+
+$PAGE->requires->jquery();
+$PAGE->requires->js_call_amd("local_eudecustom/eude", "calendar");
+
+$html = html_writer::start_tag('div', array('id' => 'modalwrapper', 'class' => 'wrapper'));
+    $html .= html_writer::start_div('modalcontent');
+    $html .= html_writer::start_div('row');
+        // Close window button.
+        $html .= html_writer::start_div('buttonwrapper text-right');
+        $html .= html_writer::tag('button', 'x', array('id' => 'closemodalwindowbutton', 'class' => 'btn btn-danger'));
+        $html .= html_writer::end_div();
+        // The form starts here.
+        $html .= html_writer::start_tag('form',
+                array('id' => 'form-print-events',
+                    'name' => 'form-print-events',
+                    'method' => 'post',
+                    'action' => 'eudeeventlist.php'));
+
+        // Section for the datepickers.
+        $html .= html_writer::start_div('col-md-6 text-center');
+            $html .= html_writer::tag('label', get_string('datefrom', 'local_eudecustom'), array('for' => 'categoryname'));
+            $html .= html_writer::empty_tag('input',
+                        array('type' => 'text', 'id' => 'startdatemodal',
+                    'class' => 'startdatemodal inputdate', 'name' => 'startdatemodal', 'placeholder' => 'dd/mm/aaaa'));
+        $html .= html_writer::end_tag('div');
+        $html .= html_writer::start_div('col-md-6 text-center');
+
+            $html .= html_writer::tag('label', get_string('dateuntil', 'local_eudecustom'), array('for' => 'categoryname'));
+            $html .= html_writer::empty_tag('input',
+                        array('type' => 'text', 'id' => 'enddatemodal',
+                    'class' => 'enddatemodal inputdate', 'name' => 'enddatemodal', 'placeholder' => 'dd/mm/aaaa'));
+        $html .= html_writer::end_tag('div');
+
+        // Section for the events key.
+        $html .= html_writer::tag('h3', get_string('eventkeytitle', 'local_eudecustom'));
+        $html .= html_writer::start_tag('ul', array('class' => 'eventkey'));
+
+        $html .= html_writer::start_div('col-md-4');
+
+        $html .= html_writer::start_tag('li', array('id' => 'eventkeymodulebegin', 'class' => 'eventkey'));
+        $html .= html_writer::empty_tag('input',
+                        array('type' => 'checkbox', 'id' => 'cb-eventkeymodulebegin',
+                    'class' => 'cb-eventkey', 'name' => 'modulebegin', 'checked' => 'checked'));
+        $html .= html_writer::start_tag('div',
+                        array('id' => 'cd-eventkeymodulebegin',
+                    'class' => 'cd-eventkey eventkeymodulebegin'));
+        $html .= html_writer::end_tag('div');
+        $html .= html_writer::tag('span', get_string('eventkeymodulebegin', 'local_eudecustom'));
+        $html .= html_writer::end_tag('li');
+
+        $html .= html_writer::start_tag('li', array('id' => 'eventkeyactivityend', 'class' => 'eventkey'));
+        $html .= html_writer::empty_tag('input',
+                        array('type' => 'checkbox', 'id' => 'cb-eventkeyactivityend',
+                    'class' => 'cb-eventkey', 'name' => 'activityend', 'checked' => 'checked'));
+        $html .= html_writer::start_tag('div',
+                        array('id' => 'cd-eventkeyactivityend',
+                    'class' => 'cd-eventkey eventkeyactivityend'));
+        $html .= html_writer::end_tag('div');
+        $html .= html_writer::tag('span', get_string('eventkeyactivityend', 'local_eudecustom'));
+        $html .= html_writer::end_tag('li');
+
+        $html .= html_writer::start_tag('li', array('id' => 'eventkeyquestionnairedate', 'class' => 'eventkey'));
+        $html .= html_writer::empty_tag('input',
+                        array('type' => 'checkbox', 'id' => 'cb-eventkeyquestionnairedate',
+                    'class' => 'cb-eventkey', 'name' => 'questionnairedate', 'checked' => 'checked'));
+        $html .= html_writer::start_tag('div',
+                        array('id' => 'cd-eventkeyquestionnairedate',
+                    'class' => 'cd-eventkey eventkeyquestionnairedate'));
+        $html .= html_writer::end_tag('div');
+        $html .= html_writer::tag('span', get_string('eventkeyquestionnaire', 'local_eudecustom'));
+        $html .= html_writer::end_tag('li');
+
+        $html .= html_writer::end_tag('div');
+        $html .= html_writer::start_div('col-md-4');
+
+        $html .= html_writer::start_tag('li', array('id' => 'eventkeytestdate', 'class' => 'eventkey'));
+        $html .= html_writer::empty_tag('input',
+                        array('type' => 'checkbox', 'id' => 'cb-eventkeytestdate',
+                    'class' => 'cb-eventkey', 'name' => 'testdate', 'checked' => 'checked'));
+        $html .= html_writer::start_tag('div', array('id' => 'cd-eventkeytestdate', 'class' => 'cd-eventkey eventkeytestdate'));
+        $html .= html_writer::end_tag('div');
+        $html .= html_writer::tag('span', get_string('eventkeytestdate', 'local_eudecustom'));
+        $html .= html_writer::end_tag('li');
+
+        $html .= html_writer::start_tag('li', array('id' => 'eventkeyintensivemodulebegin', 'class' => 'eventkey'));
+        $html .= html_writer::empty_tag('input',
+                        array('type' => 'checkbox', 'id' => 'cb-eventkeyintensivemodulebegin',
+                    'class' => 'cb-eventkey', 'name' => 'intensivemodulebegin', 'checked' => 'checked'));
+        $html .= html_writer::start_tag('div',
+                        array('id' => 'cd-eventkeyintensivemodulebegin',
+                    'class' => 'cd-eventkey eventkeyintensivemodulebegin'));
+        $html .= html_writer::end_tag('div');
+        $html .= html_writer::tag('span', get_string('eventkeyintensivemodulebegin', 'local_eudecustom'));
+        $html .= html_writer::end_tag('li');
+
+        $html .= html_writer::end_tag('div');
+        $html .= html_writer::start_div('col-md-4');
+
+        $html .= html_writer::start_tag('li', array('id' => 'eventkeyvacation', 'class' => 'eventkey'));
+        $html .= html_writer::empty_tag('input',
+                        array('type' => 'checkbox', 'id' => 'cb-eventkeyvacation',
+                    'class' => 'cb-eventkey', 'name' => 'vacation', 'checked' => 'checked'));
+        $html .= html_writer::start_tag('div', array('id' => 'cd-eventkeyvacation', 'class' => 'cd-eventkey eventkeyvacation'));
+        $html .= html_writer::end_tag('div');
+        $html .= html_writer::tag('span', get_string('eventkeyvacation', 'local_eudecustom'));
+        $html .= html_writer::end_tag('li');
+
+        $html .= html_writer::start_tag('li', array('id' => 'eventkeyeudeevent', 'class' => 'eventkey'));
+        $html .= html_writer::empty_tag('input',
+                        array('type' => 'checkbox', 'id' => 'cb-eventkeyeudeevent',
+                    'class' => 'cb-eventkey', 'name' => 'eudeevent', 'checked' => 'checked'));
+        $html .= html_writer::start_tag('div', array('id' => 'cd-eventkeyeudeevent', 'class' => 'cd-eventkey eventkeyeudeevent'));
+        $html .= html_writer::end_tag('div');
+        $html .= html_writer::tag('span', get_string('eventkeyeudeevent', 'local_eudecustom'));
+        $html .= html_writer::end_tag('li');
+
+        $html .= html_writer::end_tag('div');
+
+        $html .= html_writer::end_tag('ul');
+
+        // Generate event list button.
+        $html .= html_writer::start_div('col-md-12');
+        $html .= html_writer::nonempty_tag('button', get_string('generateeventlist', 'local_eudecustom'), array('type' => 'submit',
+            'id' => 'generateeventlist', 'name' => 'generateeventlist', 'class' => 'btn btn-default', 'value' => 'Generate'));
+        $html .= html_writer::end_div();
+
+        $html .= html_writer::end_tag('form');
+
+    $html .= html_writer::end_div();
+$html .= html_writer::end_div();
+$html .= html_writer::end_div();
+
+echo $html;

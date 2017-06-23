@@ -1,0 +1,224 @@
+<?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * Basic authentication steps definitions.
+ *
+ * @package    local_eudecustom
+ * @category   test
+ * @copyright  2017 Planificacion de Entornos Tecnologicos SL
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+// NOTE: no MOODLE_INTERNAL test here, this file may be required by behat before including /config.php.
+
+require_once(__DIR__ . '/../../../../lib/behat/behat_base.php');
+
+use Behat\Behat\Context\Step\Given as Given;
+use Behat\Behat\Context\Step\When as When;
+
+/**
+ * Log in log out steps definitions.
+ *
+ * @package    local_eudecustom
+ * @category   test
+ * @copyright  2017 Planificacion de Entornos Tecnologicos SL
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class behat_local_eudecustom extends behat_base {
+    
+    /**
+     * Opens Eudecustom Messages.
+     *
+     * @Given /^I go to eudemessages$/
+     */
+    public function i_go_to_eudemessages() {
+        $this->getSession()->visit($this->locate_path("/local/eudecustom/eudemessages.php"));
+    }
+    
+    /**
+     * Opens Moodle homepage.
+     *
+     * @Given /^I go to intensives$/
+     */
+    public function i_go_to_intensives() {
+        $this->getSession()->visit($this->locate_path('/local/eudecustom/eudeprofile.php'));
+    }
+    
+    /**
+     * Opens Eudecustom Integratedat.
+     *
+     * @Given /^I go to eude integration$/
+     */
+    public function i_go_to_eudeintegration() {
+        $this->getSession()->visit($this->locate_path("/local/eudecustom/eudeintegration.php"));
+    }
+    
+    /**
+     * Opens Eudecustom Calendar.
+     *
+     * @Given /^I go to eudecalendar/
+     */
+    public function i_go_to_calendar() {
+        $this->getSession()->visit($this->locate_path("/local/eudecustom/eudecalendar.php"));
+    }
+    
+    /**
+     * Opens Eudecustom Integratedat.
+     *
+     * @Given /^I process course enrolments and generate holidays/
+     */
+    public function i_process_course_enrolments_and_generate_holiday() {
+        global $CFG;
+        global $DB; 
+        // comprobar si está activa la funcionalidad
+        $generate_course_events = $CFG->local_eudest_genenrolcalendar;
+        if(!$generate_course_events){
+            return 0;
+        }
+        // recuperar las matriculaciones no tratadas
+        $sql = "SELECT *
+                  FROM {eudest_enrols}
+                 WHERE pend_event=1";
+        $records = $DB->get_records_sql($sql, array());
+        
+        // recorrer matriculaciones
+        foreach($records as $record){
+            
+            // generar evento en el calendario
+            $ev_name = "[[COURSE]]$record->shortname";
+            if($record->intensive){
+                $ev_name = "[[MI]]$record->shortname";
+            }
+            $ev_description = $ev_name;
+            $ev_timestart = $record->startdate;
+            $ev_duration = $record->enddate - $record->startdate;
+            $ev_userid = $record->userid;
+            $this->eude_add_event_to_calendar($ev_name, $ev_description, $ev_timestart, $ev_duration, $ev_userid);
+
+            // actualizar campo pendiente_procesar_eventos a N  
+            $record->pend_event=0;
+            $DB->update_record('eudest_enrols', $record);
+        }    
+        
+        // comprobar si está activa la funcionalidad
+        $generate_holidays_events=$CFG->local_eudest_genholidaycalendar;
+        if(!$generate_holidays_events){
+            return 0;
+        }
+        // comprobar si debe enviar notificacion a los alumnos 3 dias antes de las vacaciones
+        $notice_holidays=$CFG->local_eudest_holydaynotice;
+
+        // recuperar las encapsulaciones pendientes de tratar las vacaciones
+        $sql = "SELECT *
+                  FROM {eudest_masters}
+                 WHERE pend_holidays=1";
+        $masters = $DB->get_records_sql($sql, array());
+        
+        // recorrer masters
+        $node_holidays = [];
+        foreach($masters as $master){
+            
+            // recuperar las matriculaciones asociadas al master
+            $sql_enrols = "SELECT *
+                             FROM {eudest_enrols}
+                            WHERE masterid = :masterid
+                         ORDER BY startdate asc";
+            $enrols = $DB->get_records_sql($sql_enrols, array("masterid" => $master->id));
+            
+            // identificar vacaciones
+            $gapdate=0;
+            foreach($enrols as $enrol){
+                
+                // desechamos el curso base para computar las vacaciones
+                if(strrpos($enrol->shortname, ".M00")){
+                    continue;
+                }
+                
+                $enrol->startdate = strtotime(date("Y-m-d", $enrol->startdate));
+                $enrol->enddate = strtotime(date("Y-m-d", $enrol->enddate));
+                if($enrol->enddate < $gapdate){
+                    continue;
+                }
+                if($gapdate==0 || ($enrol->startdate == $gapdate)){
+                    $gapdate= strtotime('+1 day', $enrol->enddate);
+                    continue;
+                }                
+                
+                // generar evento en el calendario
+                $ev_name = "[[HOLIDAYS]]";
+                $ev_description = $ev_name;
+                $ev_timestart = $gapdate;
+                $ev_duration = strtotime('-1 minutes', $enrol->startdate) - $gapdate;
+                $ev_userid = $enrol->userid;
+                $this->eude_add_event_to_calendar($ev_name, $ev_description, $ev_timestart, $ev_duration, $ev_userid); 
+                
+                // agrupar los usuarios que comparten vacaciones                
+                if($notice_holidays){
+                    $exists = false;
+                    $noticedate = strtotime('-3 days', $gapdate);
+                    foreach ($node_holidays as $node_holiday){
+                        if($node_holiday->noticedate == $noticedate && $node_holiday->categoryid == $enrol->categoryid){
+                            if (!in_array($enrol->userid, $node_holiday->users)) {
+                                array_push($node_holiday->users, $enrol->userid);
+                            }
+                            $exists=true;
+                            break;
+                        }
+                    }
+                    if(!$exists){
+                        $node_holiday = new stdClass();
+                        $node_holiday->noticedate = $noticedate;
+                        $node_holiday->categoryid = $enrol->categoryid;
+                        $node_holiday->users = [];
+                        array_push($node_holiday->users, $enrol->userid);
+                        array_push($node_holidays, $node_holiday);
+                    }
+                }
+                
+                $gapdate= strtotime('+1 day', $enrol->enddate);
+                               
+            }
+            
+            // actualizar master
+            $master->pend_holidays=0;
+            $DB->update_record('eudest_masters', $master);
+            
+        }
+        
+        // crear mensajes de vacaciones
+        if($notice_holidays){
+            foreach ($node_holidays as $node_holiday){
+                $to = implode(",", $node_holiday->users);
+                $this->eude_add_message_to_stack($node_holiday->categoryid, $to, "", $this->msgtypeHolidays, $node_holiday->noticedate);
+            } 
+        }
+    }
+    
+    private function eude_add_event_to_calendar($name, $description, $timestart, $duration, $userid) {    
+        $event = new stdClass();
+        $event->name = $name;
+        $event->modulename = "";
+        $event->description = $description;
+        $event->groupid = 0;
+        $event->timestart = $timestart;
+        $event->visible = 1;
+        $event->timeduration = $duration;
+        $event->userid = $userid;
+        
+        calendar_event::create($event); // Create the event.        
+    }
+}

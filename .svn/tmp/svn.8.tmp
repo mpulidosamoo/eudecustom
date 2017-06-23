@@ -1,0 +1,166 @@
+<?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * Basic authentication steps definitions.
+ *
+ * @package    local_eudecustom
+ * @category   test
+ * @copyright  2017 Planificacion de Entornos Tecnologicos SL
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+// NOTE: no MOODLE_INTERNAL test here, this file may be required by behat before including /config.php.
+require_once(__DIR__ . '/../../../../lib/behat/behat_base.php');
+
+use Behat\Behat\Context\Step\Given as Given;
+use Behat\Behat\Context\Step\When as When;
+
+/**
+ * Log in log out steps definitions.
+ *
+ * @package    local_eudecustom
+ * @category   test
+ * @copyright  2017 Planificacion de Entornos Tecnologicos SL
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class behat_local_eudecustom extends behat_base {
+    
+    /**
+     * Opens Eudecustom Messages.
+     *
+     * @Given /^I go to eudemessages$/
+     */
+    public function i_go_to_eudemessages() {
+        $this->getSession()->visit($this->locate_path("/local/eudecustom/eudemessages.php"));
+    }
+    
+    /**
+     * Opens Moodle homepage.
+     *
+     * @Given /^I go to intensives$/
+     */
+    public function i_go_to_intensives() {
+        $this->getSession()->visit($this->locate_path('/local/eudecustom/eudeprofile.php'));
+    }
+    
+    /**
+     * Opens Eudecustom Integratedat.
+     *
+     * @Given /^I go to eude integration$/
+     */
+    public function i_go_to_eudeintegration() {
+        $this->getSession()->visit($this->locate_path("/local/eudecustom/eudeintegration.php"));
+    }
+    
+    /**
+     * Opens Eudecustom Calendar.
+     *
+     * @Given /^I go to eudecalendar/
+     */
+    public function i_go_to_calendar() {
+        $this->getSession()->visit($this->locate_path("/local/eudecustom/eudecalendar.php"));
+    }
+     
+    /**
+     * Click on module beginning.
+     *
+     * @Given /^I click module beginning/
+     */
+    public function click_on_module_beginning(){
+        $this->iClickOnTheElementWithXPath('("//input[@id=\'cb-eventkeymodulebegin\']")[2]');
+        //("//input[@id='cb-eventkeymodulebegin']")[2]
+        //"(\"//input[@id='cb-eventkeymodulebegin']\")"
+    }
+    
+    /**
+     * @when /^I add events/
+     */
+    public function add_events() {
+        global $DB;
+        $coursedata = $DB->get_record('course', array('shortname' => 'M01'));
+        $userdata = $DB->get_record('user', array('username' => 'user1'));
+        $admindata = $DB->get_record('user', array('username' => 'admin'));
+        
+        $event = new stdClass();
+        
+        $event->name = "[[COURSE]]$coursedata->shortname";
+        $event->description = $coursedata->fullname;
+        $event->format = 1;
+        $event->courseid = $coursedata->id;
+        $event->groupid = 0;
+        $event->userid = $userdata->id;
+        $event->instance = 0;
+        $event->eventtype = 'course';
+        $event->timestart = 1483255184;
+        $event->timeduration = 1491031184 - 1483255184;
+        $event->visible = 1;
+        $event->sequence = 1;
+        calendar_event::create($event);
+        
+        $coursedata = $DB->get_record('course', array('shortname' => 'MI.M02'));
+        $event = new stdClass();
+        
+        $event->name = "[[MI]]$coursedata->shortname";
+        $event->description = $coursedata->fullname;
+        $event->format = 1;
+        $event->courseid = 0;
+        $event->groupid = 0;
+        $event->userid = $userdata->id;
+        $event->instance = 0;
+        $event->eventtype = 'user';
+        $event->timestart = 1512717833;
+        $event->timeduration = 1513927433 - 1512717833;
+        $event->visible = 1;
+        $event->sequence = 1;
+        calendar_event::create($event);
+        
+        $event = new stdClass();
+        
+        $event->name = 'Event site 1';
+        $event->description = 'Event site test';
+        $event->format = 1;
+        $event->courseid = 1;
+        $event->groupid = 0;
+        $event->userid = $admindata->id;
+        $event->instance = 0;
+        $event->eventtype = 'site';
+        $event->timestart = 1483258962;
+        $event->timeduration = 864000;
+        $event->visible = 1;
+        $event->sequence = 1;
+        calendar_event::create($event);
+       
+    }
+    
+     public function iClickOnTheElementWithXPath($xpath)
+    {
+        $session = $this->getSession(); // get the mink session
+        $element = $session->getPage()->find(
+            'xpath',
+            $session->getSelectorsHandler()->selectorToXpath('xpath', $xpath)
+        ); // runs the actual query and returns the element
+ 
+        // errors must not pass silently
+        if (null === $element) {
+            throw new \InvalidArgumentException(sprintf('Could not evaluate XPath: "%s"', $xpath));
+        }
+        
+        // ok, let's click on it
+        $element->click();
+ 
+    }
+}

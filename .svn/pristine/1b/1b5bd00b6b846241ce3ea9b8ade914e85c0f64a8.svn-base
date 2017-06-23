@@ -1,0 +1,97 @@
+@local @local_eudecustom @javascript
+Feature: Write a message
+    In order to communicate with other users
+    
+Background: 
+    
+    Given the following "users" exist:
+      | username | firstname | lastname | email                |
+      | user1    | User1     | 1        | user1@example.com    |
+      | user2    | User2     | 2        | user2@example.com    |
+      | user3    | User3     | 3        | user3@example.com    |
+      | user4    | User4     | 4        | user5@example.com    |
+      | teacher1    | Teacher1      | 4        | user4@example.com    |
+    And the following "categories" exist:
+      | name | idnumber |
+      | Cat1 | CAT1     |
+      | Cat2 | CAT2     |
+    And the following "courses" exist:
+      | category | shortname | idnumber | fullname |
+      | CAT1     | M01       | C1       | Course 1 |
+      | CAT2     | M02       | C2       | Course 2 |
+      | CAT2     | MI.CAT2.M03| C3      | Course intensive 1 |
+    And the following "course enrolments" exist:
+      | user     | course        | role             | timestart  | timeend    |
+      | user1    | M01           | student          | 1500192416 | 1531728416 |
+      | user2    | M02           | student          | 1500192416 | 1531728416 |
+      | user3    | M01           | student          | 1500192416 | 1531728416 |
+      | user3    | M02           | student          | 1500192416 | 1531728416 |
+      | teacher1 | M01           | editingteacher   | 1400192416 | 1531728416 |
+      | teacher1 | M02           | editingteacher   | 1400192416 | 1531728416 |
+      | teacher1 | MI.CAT2.M03   | editingteacher   | 1400192416 | 1531728416 |
+    And the following "activities" exist:
+      | activity |  idnumber   | course      |  timeopen   |    timeclose | section |
+      | quiz    |     Q1       | M01         |  1503118711 |   1503118711 | 1 |
+      | quiz    |     Q2       | M02         |  1503118711 |   1503118711 | 1 |
+      | quiz    |     Q3       | MI.CAT2.M03 |  1503118711 |   1503118711 | 1 |
+    And the following "activities" exist:
+      | activity |  idnumber   | course        |  timeopen   |   timeclose  | section |
+      | choice    |     C1       | M01         |  1503118711 |   1503118711 |   1     |
+      | choice    |     C2       | M02         |  1503118711 |   1503118711 |   1     |
+      | choice    |     c3       | MI.CAT2.M03 |  1503118711 |   1503118711 |   1     |
+    And the following "activities" exist:
+      | activity    |  idnumber    | course      |  timeavailable   |    timedue   | section |
+      | assign      |     A1       | M01         |      432000      |   1503118711 |   1     |
+      | assign      |     A2       | M02         |      432000      |   1503118711 |   1     | 
+      | assign      |     A3       | MI.CAT2.M03 |      432000      |   1503118711 |   1     | 
+   # And I process course enrolments and generate holidays
+   # And I log in as "teacher1"
+   # And I follow "Course 1"
+   # And I turn editing mode on
+   # And I add a "Assignment" to section "1" and I fill the form with:
+   #   | Assignment name | Test assignment name |
+   #   | Description | Submit your online text |
+   #   | assignsubmission_onlinetext_enabled | 1 |
+   #   | assignsubmission_onlinetext_wordlimit_enabled | 1 |
+   #   | assignsubmission_onlinetext_wordlimit | 10 |
+   #   | assignsubmission_file_enabled | 0 |
+   # And I add a "Choice" to section "1" and I fill the form with:
+   #   | Choice name | Test questionarie |
+   #   | Description | Prueba de consulta 1 |
+   #   | Option 1 | Respuesta 1 |
+   # And I am on site homepage
+   # And I follow "Course 2"
+   # And I add a "Assignment" to section "1" and I fill the form with:
+   #   | Assignment name | Test assignment name |
+#      | Description | Submit your online text |
+#      | assignsubmission_onlinetext_enabled | 1 |
+   #   | assignsubmission_onlinetext_wordlimit_enabled | 1 |
+   #   | assignsubmission_onlinetext_wordlimit | 10 |
+   #   | assignsubmission_file_enabled | 0 |
+    #And I log out
+
+    
+
+
+
+Scenario: Open the eudecalendar view as user4
+    Given I log in as "user4"
+    And I go to eudecalendar
+    And I press "openmodalwindowforprint"
+    And I set the field "startdatemodal" to "16/07/2017"
+    And I set the field "enddatemodal" to "16/07/2018"
+    And I press "generateeventlist"
+    And I log out
+
+Scenario: Open the eudecalendar view as teacher1
+    Given I log in as "teacher1"
+    And I go to eudecalendar
+    And I press "openmodalwindowforprint"
+    And I set the field "startdatemodal" to "16/07/2017"
+    And I set the field "enddatemodal" to "16/07/2018"
+    And I press "generateeventlist"
+    And I log out
+    
+    
+
+  
