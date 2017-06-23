@@ -95,7 +95,7 @@ class behat_local_eudecustom extends behat_base {
 
     /**
      * Inserts records into our custom table in order to create the background.
-     * 
+     *
      * @Given /^I set initial dates of intensive modules$/
      */
     public function i_set_initialdates_of_intensivemodules () {
@@ -131,15 +131,13 @@ class behat_local_eudecustom extends behat_base {
         if (!$generatecourseevents) {
             return 0;
         }
-      
+
         $sql = "SELECT *
                   FROM {eudest_enrols}
                  WHERE pend_event=1";
         $records = $DB->get_records_sql($sql, array());
-        
-        foreach ($records as $record) {
 
-            
+        foreach ($records as $record) {
             $evname = "[[COURSE]]$record->shortname";
             if ($record->intensive) {
                 $evname = "[[MI]]$record->shortname";
@@ -149,8 +147,6 @@ class behat_local_eudecustom extends behat_base {
             $evduration = $record->enddate - $record->startdate;
             $evuserid = $record->userid;
             $this->eude_add_event_to_calendar($evname, $evdescription, $evtimestart, $evduration, $evuserid);
-
-            // actualizar campo pendiente_procesar_eventos a N  
             $record->pend_event = 0;
             $DB->update_record('eudest_enrols', $record);
         }
@@ -159,9 +155,9 @@ class behat_local_eudecustom extends behat_base {
         if (!$generateholidaysevents) {
             return 0;
         }
-        
+
         $noticeholidays = $CFG->local_eudest_holydaynotice;
-        
+
         $sql = "SELECT *
                   FROM {eudest_masters}
                  WHERE pend_holidays=1";
@@ -199,7 +195,7 @@ class behat_local_eudecustom extends behat_base {
                 $evduration = strtotime('-1 minutes', $enrol->startdate) - $gapdate;
                 $evuserid = $enrol->userid;
                 $this->eude_add_event_to_calendar($evname, $evdescription, $evtimestart, $evduration, $evuserid);
-                
+
                 if ($noticeholidays) {
                     $exists = false;
                     $noticedate = strtotime('-3 days', $gapdate);
@@ -272,6 +268,9 @@ class behat_local_eudecustom extends behat_base {
     public function intensive_enrols() {
 
         global $DB;
+        $coursedata = $DB->get_record('course', array('shortname' => 'MI.C1'));
+        $enroldata = $DB->get_record('enrol', array('courseid' => $coursedata->id, 'enrol' => 'manual'));
+        $enrolmentdata = $DB->get_record('user_enrolment', array('enrolid' => $enroldata->id));
 
         // Font awesome is required for click on editing dates.
         // include('C:\xampp\htdocs\moodle30\theme\font-awesome-4.7.0\css\font-awesome.min.css');
@@ -315,7 +314,7 @@ class behat_local_eudecustom extends behat_base {
         // Require a timestart on user_enrolment table to test editing data.
 
         $enroldata = new StdClass();
-        $enroldata = $DB->get_record('user_enrolments', array('id' => 403007));
+        $enroldata = $DB->get_record('user_enrolments', array('id' => $enrolmentdata->id));
         $enroldata->timestart = time() + 3800000;
 
         $DB->update_record('user_enrolments', $enroldata, false);
@@ -337,7 +336,6 @@ class behat_local_eudecustom extends behat_base {
             throw new \InvalidArgumentException(sprintf('Could not evaluate XPath: "%s"', $xpath));
         }
 
-        // ok, let's click on it
         $element->click();
     }
 
@@ -351,10 +349,10 @@ class behat_local_eudecustom extends behat_base {
         $event->visible = 1;
         $event->timeduration = $duration;
         $event->userid = $userid;
-       
-        calendar_event::create($event); // Create the event.        
+
+        calendar_event::create($event);
     }
-    
+
     /**
      * Opens Eude teacher control panel.
      *
@@ -366,7 +364,7 @@ class behat_local_eudecustom extends behat_base {
 
     /**
      * This function looks for the shortname in a specific xpath depending the timestart and timeend
-     *  
+     *
      * @Given I should visualize :text with :timestart and :timeend
      * @param string $text a course shortname
      * @param int $timestart the start of enrolment
@@ -431,8 +429,8 @@ class behat_local_eudecustom extends behat_base {
                         false, false, true
         );
     }
-    
-     /**
+
+    /**
      * @when /^I add events/
      */
     public function add_events() {
@@ -440,9 +438,9 @@ class behat_local_eudecustom extends behat_base {
         $coursedata = $DB->get_record('course', array('shortname' => 'M01'));
         $userdata = $DB->get_record('user', array('username' => 'user1'));
         $admindata = $DB->get_record('user', array('username' => 'admin'));
-        
+
         $event = new stdClass();
-        
+
         $event->name = "[[COURSE]]$coursedata->shortname";
         $event->description = $coursedata->fullname;
         $event->format = 1;
@@ -456,10 +454,10 @@ class behat_local_eudecustom extends behat_base {
         $event->visible = 1;
         $event->sequence = 1;
         calendar_event::create($event);
-        
+
         $coursedata = $DB->get_record('course', array('shortname' => 'MI.M02'));
         $event = new stdClass();
-        
+
         $event->name = "[[MI]]$coursedata->shortname";
         $event->description = $coursedata->fullname;
         $event->format = 1;
@@ -473,9 +471,9 @@ class behat_local_eudecustom extends behat_base {
         $event->visible = 1;
         $event->sequence = 1;
         calendar_event::create($event);
-        
+
         $event = new stdClass();
-        
+
         $event->name = 'Event site 1';
         $event->description = 'Event site test';
         $event->format = 1;
@@ -489,6 +487,5 @@ class behat_local_eudecustom extends behat_base {
         $event->visible = 1;
         $event->sequence = 1;
         calendar_event::create($event);
-       
     }
 }

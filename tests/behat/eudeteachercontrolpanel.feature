@@ -1,5 +1,4 @@
 @local @local_eudecustom @javascript
-
 Feature: View my courses sorted by enrolment dates
     and get access to some activities
 
