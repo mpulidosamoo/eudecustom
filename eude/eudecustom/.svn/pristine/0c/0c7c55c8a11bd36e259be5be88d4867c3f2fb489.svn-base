@@ -1,0 +1,58 @@
+<?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * Moodle modal window with data neeeded for the payment gallery .
+ *
+ * @package    local_eudecustom
+ * @copyright  2017 Planificacion de Entornos Tecnologicos SL
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+require_once(dirname(__FILE__) . '/../../config.php');
+require_once(__DIR__ . '/utils.php');
+require_once($CFG->dirroot . '/my/lib.php');
+require_once($CFG->dirroot . '/tag/lib.php');
+require_once($CFG->dirroot . '/user/profile/lib.php');
+require_once($CFG->libdir . '/pagelib.php');
+require_once($CFG->libdir . '/filelib.php');
+
+require_login(null, false, null, false, true);
+
+$PAGE->set_context(context_system::instance());
+
+$PAGE->requires->jquery();
+
+global $CFG;
+
+$html = html_writer::start_div('', array('id' => 'contenedor'));
+$html .= html_writer::tag('button', 'x', array('class' => 'cerrar'));
+$html .= html_writer::start_div('', array('id' => 'contenido'));
+$html .= html_writer::tag('h3',
+        get_string('pricenotify', 'local_eudecustom') . $CFG->local_eudecustom_intensivemoduleprice . ' €.');
+$html .= html_writer::tag('p', get_string('continuewarning', 'local_eudecustom'));
+
+$html .= html_writer::start_tag('form', array(
+            'class' => 'form-amount',
+            'method' => 'post'));
+$html .= html_writer::start_div('form-group');
+
+$html = add_tpv_hidden_inputs($html);
+$html .= html_writer::end_div();
+$html .= html_writer::end_tag('form');
+$html .= html_writer::end_div();
+
+echo $html;
+
