@@ -568,7 +568,7 @@ function grades ($cid, $userid) {
  */
 function get_user_all_courses ($userid) {
     global $DB;
-    
+
     $role = $DB->get_record('role', array('shortname' => 'student'));
     $sql = "SELECT  DISTINCT c.*
               FROM {course} c
@@ -938,7 +938,7 @@ function get_students_course_data ($courseid, $actualmodule) {
     global $DB;
 
     $role = $DB->get_record('role', array('shortname' => 'student'))->id;
-    $sql = "SELECT C.id, C.shortname, C.fullname, UE.timestart, UE.timeend, UE.userid, CC.name AS 'category name'
+    $sql = "SELECT C.id, C.shortname, C.fullname, UE.timestart, UE.timeend, UE.userid, CC.name 'category name'
                     FROM {course} C
                     JOIN {course_categories} CC ON C.category = CC.id
                     JOIN {context} CTX ON C.id = CTX.instanceid
@@ -968,7 +968,7 @@ function get_students_course_data ($courseid, $actualmodule) {
             $res->date = 'actual';
         }
     } else {
-        $sql2 = "SELECT C.id, C.shortname, C.fullname, UE.timestart, UE.timeend, UE.userid, CC.name AS 'category name'
+        $sql2 = "SELECT C.id, C.shortname, C.fullname, UE.timestart, UE.timeend, UE.userid, CC.name 'category name'
                     FROM {course} C
                     JOIN {course_categories} CC ON C.category = CC.id
                     JOIN {context} CTX ON C.id = CTX.instanceid
