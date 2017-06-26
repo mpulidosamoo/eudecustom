@@ -1,4 +1,4 @@
-@local @local_eudecustom
+@local @local_eudecustom @javascript
 Feature: Prueba
   In order to validate my credentials in the system
   As a user student
