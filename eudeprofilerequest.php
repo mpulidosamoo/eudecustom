@@ -72,8 +72,11 @@ if (optional_param('profilecat', 0, PARAM_INT)) {
                     if ($USER->id == $studentid && !$studentvalrole) {
                         $ok = false;
                         foreach ($newdata as $newd) {
-                            $html = get_intensive_action($newd);
-                            $cell = new \html_table_cell($html);
+                            if ($newd->name == $row->name) {
+                                $ok = true;
+                                $cell = get_intensive_action($newd);
+                                break;
+                            }
                         }
                         if ($ok == false) {
                             $cell = new \html_table_cell('');
@@ -146,8 +149,11 @@ if (optional_param('profilecat', 0, PARAM_INT)) {
                         $tr->cells[] = $cell;
                         $ok = false;
                         foreach ($newdata as $newd) {
-                            $html = get_intensive_action($newd);
-                            $cell = new \html_table_cell($html);
+                            if ($newd->name == $row->name) {
+                                $ok = true;
+                                $cell = get_intensive_action($newd);
+                                break;
+                            }
                         }
                         if ($ok == false) {
                             $cell = new \html_table_cell('');
