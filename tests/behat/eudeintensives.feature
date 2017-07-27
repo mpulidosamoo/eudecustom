@@ -50,7 +50,7 @@ Feature: Prueba
     And I wait "1" seconds
     And I select "MBA" from the "menucategoryname" singleselect
     And I wait "2" seconds
-    And I press "Quick matriculation"
+    And I press "Early Access"
     And I press "x"
     And I press "Retry module"
     And I wait "2" seconds
@@ -64,7 +64,7 @@ Feature: Prueba
     And I wait "1" seconds
     And I select "MBA" from the "menucategoryname" singleselect
     And I wait "2" seconds
-    And I press "Quick matriculation"
+    And I press "Early Access"
     And I press "Continue"
     Then I should see "Intensives"
     
