@@ -48,7 +48,6 @@ $output = $PAGE->get_renderer('local_eudecustom', 'eudetpvmessages');
 $user = optional_param('name', $USER->id, PARAM_TEXT);
 $module = optional_param('module', 1, PARAM_TEXT);
 $payment = optional_param('payment', 0, PARAM_TEXT);
-$SESSION->module = $module;
 
 $data = new local_eudecustom_eudetpvmessages($user, $module, $payment);
 

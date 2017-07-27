@@ -45,6 +45,7 @@ $PAGE->set_heading($title);
 $PAGE->set_pagelayout('standard');
 
 $PAGE->requires->jquery();
+$PAGE->requires->css("/local/eudecustom/style/eudecustom_style.css");
 
 $output = $PAGE->get_renderer('local_eudecustom', 'eudeintegration');
 

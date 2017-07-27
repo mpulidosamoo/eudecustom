@@ -56,7 +56,8 @@ if (optional_param('messagecourse', 0, PARAM_INT)) {
               JOIN {context} cxt ON cxt.id = ra.contextid
               JOIN {user} u ON u.id = ra.userid
              WHERE cxt.contextlevel = :context
-               AND cxt.instanceid = :course';
+               AND cxt.instanceid = :course
+          ORDER BY r.shortname';
 
     $data = $DB->get_records_sql($sql, array(
         'context' => CONTEXT_COURSE,
@@ -66,17 +67,23 @@ if (optional_param('messagecourse', 0, PARAM_INT)) {
     $students = false;
     $response = "";
     foreach ($data as $option) {
-        if ($option->shortname == 'student' && !$students) {
-            $response .= "<option value='students'>" . get_string('students', 'local_eudecustom') . "</option>";
-            $students = true;
-        }
-        if ($option->shortname != 'student') {
-            $response .= "<option value=$option->userid>"
+        switch ($option->shortname) {
+            case 'student':
+                if (!$students) {
+                    $response .= "<option value='student'>" . get_string('student', 'local_eudecustom') . "</option>";
+                    $students = true;
+                }
+                break;
+            case 'studentval':
+                break;
+            default:
+                $response .= "<option value=$option->userid>"
                     . get_string($option->shortname, 'local_eudecustom')
                     . ": " . $option->firstname
                     . " "
                     . $option->lastname
                     . "</option>";
+                break;
         }
     }
     if ($manager = get_role_manager($coursecat->category)) {

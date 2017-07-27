@@ -60,31 +60,39 @@ $SESSION->course = optional_param('course', 0, PARAM_INT);
 $SESSION->date = optional_param('date', 0, PARAM_INT);
 if (optional_param('amount', 1, PARAM_FLOAT) == 0) {
     $mycourse = $DB->get_record('course', array('id' => optional_param('course', 0, PARAM_INT)));
-    $mi = $DB->get_record('course', array('shortname' => 'MI.' . $mycourse->shortname));
-    $convnum = $SESSION->date;
-    $alldates = $DB->get_record('local_eudecustom_call_date', array('courseid' => $mi->id));
-    switch ($convnum) {
-        case 1:
-            $newdate = $alldates->fecha1;
-            break;
-        case 2:
-            $newdate = $alldates->fecha2;
-            break;
-        case 3:
-            $newdate = $alldates->fecha3;
-            break;
-        case 4:
-            $newdate = $alldates->fecha4;
-            break;
-        default:
-            $newdate = 0;
-            break;
+    $namecourse = explode('[', $mycourse->shortname);
+    if (isset($namecourse[0])) {
+        $idname = explode('.M.', $namecourse[0]);
+    } else {
+        $idname = explode('.M.', $namecourse);
     }
-    // Timeend is timestart + a week in seconds.
-    enrol_intensive_user('manual', $mi->id, $USER->id, $newdate, $newdate + 604800, $convnum);
-    $name = $USER->firstname . ' ' . $USER->lastname;
-    $module = $mi->shortname . ' - (' . $mi->fullname . ')';
-    header('Location: tpv_ok.php?name=' . $name . '&module=' . $module);
+    if (isset($idname[1])) {
+        $mi = $DB->get_record('course', array('shortname' => 'MI.' . $idname[1]));
+        $convnum = $SESSION->date;
+        $alldates = $DB->get_record('local_eudecustom_call_date', array('courseid' => $mi->id));
+        switch ($convnum) {
+            case 1:
+                $newdate = $alldates->fecha1;
+                break;
+            case 2:
+                $newdate = $alldates->fecha2;
+                break;
+            case 3:
+                $newdate = $alldates->fecha3;
+                break;
+            case 4:
+                $newdate = $alldates->fecha4;
+                break;
+            default:
+                $newdate = 0;
+                break;
+        }
+        // Timeend is timestart + a week in seconds.
+        enrol_intensive_user('manual', $mi->id, $USER->id, $newdate, $newdate + 604800, $convnum, $mycourse->category);
+        $name = $USER->firstname . ' ' . $USER->lastname;
+        $module = $mi->shortname . ' - (' . $mi->fullname . ')';
+        header('Location: tpv_ok.php?name=' . $name . '&module=' . $module);
+    }
 } else {
     if ($SESSION->course) {
         include("api/apiRedsys.php");
@@ -120,7 +128,8 @@ if (optional_param('amount', 1, PARAM_FLOAT) == 0) {
         $course = (integer)$SESSION->course;
         $SESSION->tpv = true;
         $mycourse = $DB->get_record('course', array('id' => $course));
-        $mi = $DB->get_record('course', array('shortname' => 'MI.'.$mycourse->shortname));
+        $idname = explode('.', $mycourse->shortname);
+        $mi = $DB->get_record('course', array('shortname' => 'MI.'.$idname[1]));
     }
 
     $mform = new local_eudecustom_payment_form($urltpv, array('user' => $userid, 'course' => $course ));

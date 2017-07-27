@@ -41,6 +41,7 @@ if (!confirm_sesskey(sesskey())) {
     $params = optional_param('Ds_MerchantParameters', 0, PARAM_TEXT);
     $sigaturerecibida = optional_param('Ds_Signature', 0, PARAM_TEXT);
     $course = $SESSION->course;
+    $SESSION->module = $SESSION->course;
     $decodec = $miobj->decodeMerchantParameters($params);
     $codigorespuesta = $miobj->getParameter('Ds_Response');
     if ($course && $SESSION->tpv) {
@@ -50,30 +51,40 @@ if (!confirm_sesskey(sesskey())) {
     }
     if ($signaturecalculada === $sigaturerecibida) {
         $mycourse = $DB->get_record('course', array('id' => $course));
-        $mi = $DB->get_record('course', array('shortname' => 'MI.' . $mycourse->shortname));
-        $convnum = $SESSION->date;
-        $alldates = $DB->get_record('local_eudecustom_call_date', array('courseid' => $mi->id));
-        switch ($convnum) {
-            case 1:
-                $newdate = $alldates->fecha1;
-                break;
-            case 2:
-                $newdate = $alldates->fecha2;
-                break;
-            case 3:
-                $newdate = $alldates->fecha3;
-                break;
-            case 4:
-                $newdate = $alldates->fecha4;
-                break;
-            default:
-                break;
+        $namecourse = explode('[', $mycourse->shortname);
+        if (isset($namecourse[0])) {
+            $nameid = explode('.M.', $namecourse[0]);
+        } else {
+            $nameid = explode('.M.', $namecourse);
         }
-        // Timeend is timestart + a week in seconds.
-        enrol_intensive_user('manual', $mi->id, $USER->id, $newdate, $newdate + 604800, $convnum);
-        $name = $USER->firstname . ' ' . $USER->lastname;
-        $module = $mi->shortname . ' - (' . $mi->fullname . ')';
-        header('Location: tpv_ok.php?name=' . $name . '&module=' . $module . '&payment=ok');
+        if (isset($nameid[1])) {
+            $mi = $DB->get_record('course', array('shortname' => 'MI.' . $nameid[1]));
+            $convnum = $SESSION->date;
+            $alldates = $DB->get_record('local_eudecustom_call_date', array('courseid' => $mi->id));
+            switch ($convnum) {
+                case 1:
+                    $newdate = $alldates->fecha1;
+                    break;
+                case 2:
+                    $newdate = $alldates->fecha2;
+                    break;
+                case 3:
+                    $newdate = $alldates->fecha3;
+                    break;
+                case 4:
+                    $newdate = $alldates->fecha4;
+                    break;
+                default:
+                    break;
+            }
+            // Timeend is timestart + a week in seconds.
+            enrol_intensive_user('manual', $mi->id, $USER->id, $newdate, $newdate + 604800, $convnum, $mycourse->category);
+            $name = $USER->firstname . ' ' . $USER->lastname;
+            $module = $mi->shortname . ' - (' . $mi->fullname . ')';
+            header('Location: tpv_ok.php?name=' . $name . '&module=' . $module . '&payment=ok');
+        } else {
+            header('Location: tpv_ko_message.php');
+        }
     } else {
         header('Location: tpv_ko_message.php');
     }

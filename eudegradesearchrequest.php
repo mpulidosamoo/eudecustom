@@ -52,7 +52,7 @@ if (optional_param('cat', 0, PARAM_INT)) {
 
 if (optional_param('course', 0, PARAM_INT)) {
     $courseid = optional_param('course', 0, PARAM_INT);
-    $data = get_course_students($courseid);
+    $data = get_course_students($courseid, 'student');
     $response = '';
     foreach ($data as $option) {
         $response .= '<option value=' . $option->id . '>' . $option->lastname . ', ' . $option->firstname . '</option>';

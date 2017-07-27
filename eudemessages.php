@@ -76,6 +76,7 @@ $PAGE->set_pagelayout('standard');
 $PAGE->requires->jquery();
 $PAGE->requires->js_call_amd("local_eudecustom/eude", "message");
 $PAGE->requires->js_call_amd("local_eudecustom/eude", "menu");
+$PAGE->requires->css("/local/eudecustom/style/eudecustom_style.css");
 
 $output = $PAGE->get_renderer('local_eudecustom', 'eudemessages');
 
@@ -103,9 +104,10 @@ if (optional_param('sendmessage', null, PARAM_TEXT) == 'Enviar') {
         $messagehtml = format_string(optional_param('messagetext', null, PARAM_TEXT));
         $message = $subject . '<br> ' . $messagehtml;
         $format = FORMAT_HTML;
-        // If the chosen receiver is students -> send a message to all the users with role student.
-        if (optional_param('destinatarioname', null, PARAM_TEXT) == 'students') {
-            $role = $DB->get_record('role', array('shortname' => 'student'));
+        // If the chosen receiver is some type of students -> send a message to all the users with that role.
+        $roletype = optional_param('destinatarioname', null, PARAM_TEXT);
+        if ($roletype == 'student') {
+            $role = $DB->get_record('role', array('shortname' => $roletype));
             $coursecontext = context_course::instance(optional_param('coursename', null, PARAM_INT));
             $students = get_role_users($role->id, $coursecontext);
             foreach ($students as $key => $value) {
@@ -122,7 +124,7 @@ if (optional_param('sendmessage', null, PARAM_TEXT) == 'Enviar') {
 $sesskey = sesskey();
 
 $categories = array();
-$categories = get_user_categories($USER->id);
+$categories = get_user_categories($USER->id, false);
 $categories = array_flip($categories);
 
 $subjects = get_samoo_subjects();

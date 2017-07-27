@@ -53,6 +53,7 @@ $PAGE->set_pagelayout('standard');
 $PAGE->requires->jquery();
 $PAGE->requires->js_call_amd("local_eudecustom/eude", "academic");
 $PAGE->requires->js_call_amd("local_eudecustom/eude", "menu");
+$PAGE->requires->css("/local/eudecustom/style/eudecustom_style.css");
 
 // Load the renderer of the page.
 $output = $PAGE->get_renderer('local_eudecustom', 'eudegradesearch');
@@ -69,7 +70,7 @@ $categories = array_unique(array_flip(array_merge($cat1, $cat2, $cat3)));
 if (!count($categories)) {
     echo $output->eude_nopermission_url();
 } else {
-    $data = new local_eudecustom_eudegradesearch($categories, array(), array());
+    $data = new local_eudecustom_eudegradesearch($categories);
     echo $output->eude_gradesearch_page($data, $sesskey);
 }
 

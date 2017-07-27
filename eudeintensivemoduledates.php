@@ -49,43 +49,34 @@ $PAGE->requires->jquery_plugin('ui');
 $PAGE->requires->jquery_plugin('ui-css');
 $PAGE->requires->js_call_amd("local_eudecustom/eude", "matriculation");
 $PAGE->requires->js_call_amd("local_eudecustom/eude", "menu");
+$PAGE->requires->css("/local/eudecustom/style/eudecustom_style.css");
 
 // Load the renderer of the page.
 $output = $PAGE->get_renderer('local_eudecustom', 'eudeintensivemoduledates');
 
 // Prepare data required in the renderer.
 $sesskey = sesskey();
-$categories = get_categories_with_intensive_modules();
-$categories = array_flip($categories);
 
-$data = new local_eudecustom_eudeintensivemoduledates($categories, array());
+$data = new local_eudecustom_eudeintensivemoduledates();
 
 // We insert the form data in the db.
-if (optional_param('savedates', null, PARAM_TEXT) == 'savedates' &&
-        $categoryname = optional_param('categoryname', null, PARAM_INT)) {
+if (optional_param('savedates', null, PARAM_TEXT) == 'savedates') {
     if (!confirm_sesskey()) {
         error('Bad Session Key');
     } else {
-        $sql = "SELECT *
-              FROM {course}
-             WHERE category = :category
-               AND shortname LIKE 'MI.%'
-          ORDER BY startdate ASC";
-        $records = $DB->get_records_sql($sql, array('category' => $categoryname));
         $coursedata = array();
-        foreach ($records as $record) {
+        foreach ($data->courses as $record) {
             $course = new stdClass();
-            $course->courseid = $record->id;
-            $course->fecha1 = strtotime(optional_param('date1-' . $record->id, null, PARAM_TEXT));
-            $course->fecha2 = strtotime(optional_param('date2-' . $record->id, null, PARAM_TEXT));
-            $course->fecha3 = strtotime(optional_param('date3-' . $record->id, null, PARAM_TEXT));
-            $course->fecha4 = strtotime(optional_param('date4-' . $record->id, null, PARAM_TEXT));
+            $course->courseid = $record->courseid;
+            $course->fecha1 = strtotime(optional_param('date1-' . $record->courseid, null, PARAM_TEXT));
+            $course->fecha2 = strtotime(optional_param('date2-' . $record->courseid, null, PARAM_TEXT));
+            $course->fecha3 = strtotime(optional_param('date3-' . $record->courseid, null, PARAM_TEXT));
+            $course->fecha4 = strtotime(optional_param('date4-' . $record->courseid, null, PARAM_TEXT));
             array_push($coursedata, $course);
         }
         save_matriculation_dates($coursedata);
     }
 }
-
 // Call the functions of the renderar that prints the content.
 // Check if the logged user is the siteadmin.
 if (has_capability('moodle/site:config', context_system::instance())) {

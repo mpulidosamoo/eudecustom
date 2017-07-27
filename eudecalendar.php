@@ -94,6 +94,7 @@ $PAGE->requires->jquery_plugin('ui');
 $PAGE->requires->jquery_plugin('ui-css');
 $PAGE->requires->js_call_amd("local_eudecustom/eude", "calendar");
 $PAGE->requires->js_call_amd("local_eudecustom/eude", "menu");
+$PAGE->requires->css("/local/eudecustom/style/eudecustom_style.css");
 
 // Load the renderer of the page.
 $output = $PAGE->get_renderer('local_eudecustom', 'eudecalendar');

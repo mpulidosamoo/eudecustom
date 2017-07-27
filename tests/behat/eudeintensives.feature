@@ -16,21 +16,21 @@ Feature: Prueba
       | MBA  | 2        |
     And the following "courses" exist:
       | fullname    | shortname | format | category |
-      | Course 0    | RRHH.C0   | weeks  | 1        |
-      | Course 1    | MBA.C1    | weeks  | 2        |
-      | Course 2    | MBA.C2    | weeks  | 2        |
-      | MI.Course 1 | MI.MBA.C1 | weeks  | 2        |
-      | MI.Course 2 | MI.MBA.C2 | weeks  | 2        |
+      | Course 0    | RRHH.M.C0   | weeks  | 1        |
+      | Course 1    | MBA.M.C1    | weeks  | 2        |
+      | Course 2    | MBA.M.C2    | weeks  | 2        |
+      | MI.Course 1 | MI.C1 | weeks  | 2        |
+      | MI.Course 2 | MI.C2 | weeks  | 2        |
     And the following "course enrolments" exist:
       | user     | course    | role    | timestart  |
-      | student1 | RRHH.C0   | student | 1480192416 |
-      | student2 | RRHH.C0   | student | 1480192416 |
-      | student1 | MBA.C1    | student | 1490192416 |
-      | student2 | MBA.C1    | student | 1490192416 |
-      | student3 | MBA.C1    | student | 1490192416 |
-      | student1 | MBA.C2    | student | 1490192416 |
-      | student1 | MI.MBA.C1 | student | 1450192416 |
-      | student3 | MI.MBA.C1 | student | 1530192416 |
+      | student1 | RRHH.M.C0   | student | 1480192416 |
+      | student2 | RRHH.M.C0   | student | 1480192416 |
+      | student1 | MBA.M.C1    | student | 1490192416 |
+      | student2 | MBA.M.C1    | student | 1490192416 |
+      | student3 | MBA.M.C1    | student | 1490192416 |
+      | student1 | MBA.M.C2    | student | 1490192416 |
+      | student1 | MI.C1 | student | 1450192416 |
+      | student3 | MI.C1 | student | 1530192416 |
     And I log in as "admin"
     And I navigate to "Plugins > Local plugins > Eude custom actions" in site administration
     And I select "6" from the "id_s__local_eudecustom_intensivemodulechecknumber" singleselect
