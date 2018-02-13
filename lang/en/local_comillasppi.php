@@ -15,17 +15,17 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details.
+ * Contains language strings
  *
- * @package local_comillasppi5
- * @copyright  2018 Planificacion de Entornos Tecnologicos SL
+ * @package    local_comillasppi
+ * @copyright  2018 Planificación Entornos Tecnológicos {@link http://www.pentec.es/}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->version   = 2018020600;        // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires  = 2015051100;        // Requires this Moodle version.
-$plugin->component = 'local_comillasppi'; // Full name of the plugin (used for diagnostics).
-$plugin->maturity = MATURITY_STABLE; // This is considered as ready for production sites.
-$plugin->release = 'v1.0.0'; // This is our first version.
+$string['pluginname'] = 'Comillas Intellectual Privacy Policies';
+$string['comillasppi'] = 'Comillas PPI';
+$string['comillasppi_warning'] = 'Warning text';
+$string['comillasppi_warning_desc'] = 'Write the text you want to show in the window';
+$string['comillasppi_url'] = 'URL';
+$string['comillasppi_url_desc'] = 'URL to additional information. The placeholder for the id of '
+        . 'the course is the string idnumber (i.e. http://www.google.com/idnumber)';

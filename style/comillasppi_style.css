@@ -1,0 +1,69 @@
+.comillasppi-popupbox {
+    background-color: #fefefe;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px #444;
+    display: none;
+    height: 300px;
+    left: 50%;
+    margin-left: -200px;
+    position: fixed !important;
+    top: 30%;
+    width: 400px;
+    z-index: 999999 !important;
+}
+.comillasppi-header {
+    background-color: #eee;
+    border: 1px #ccc solid;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-left: 2px;
+    margin-top: 2px;
+    padding: 5px;
+    width: 396px;
+}
+.comillasppi-close {
+    background: linear-gradient(to top, #7f0202, #b50505);
+    border: 1px #b50505 solid;
+    border-radius: 3px;
+    color: #fff;
+    padding: 1px 5px;
+    position: absolute;
+    right: 6px;
+    top: 6px;
+    transition: background 2s;
+}
+.comillasppi-close:hover {
+    background: linear-gradient(to bottom, #7f0202, #b50505);
+    cursor: pointer;
+}
+.comillasppi-accept {
+    background: linear-gradient(to top, #0d3672, #537cba);
+    border: 1px #537cba solid;
+    border-radius: 5px;
+    bottom: 10px;
+    color: #f6f6f6;
+    font-family: 'verdana', 'tahoma';
+    font-size: 12px;
+    padding: 10px 20px;
+    position: absolute;
+    right: 20px;
+}
+.comillasppi-accept:hover {
+    background: linear-gradient(to top, #537cba, #0d3672);
+    cursor: pointer;
+}
+.comillasppi-mask {
+    background: rgba(0,0,0,0.5);
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 99999;
+}
+.comillasppi-text {
+    padding:20px;
+}
+.comillasppi-url {
+    padding:20px;
+}

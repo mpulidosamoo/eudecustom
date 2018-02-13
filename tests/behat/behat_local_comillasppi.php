@@ -15,36 +15,28 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This php defines a class with data for eudetpvmessages_renderer.
+ * Basic authentication steps definitions.
  *
- * @package    local_eudecustom
- * @copyright  2017 Planificacion de Entornos Tecnologicos SL
+ * @package    local_comillasppi
+ * @category   test
+ * @copyright  2018 Planificacion de Entornos Tecnologicos SL
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+// NOTE: no MOODLE_INTERNAL test here, this file may be required by behat before including /config.php.
 
-defined('MOODLE_INTERNAL') || die();
+require_once(__DIR__ . '/../../../../lib/behat/behat_base.php');
+
+use Behat\Behat\Context\Step\Given as Given;
+use Behat\Behat\Context\Step\When as When;
 
 /**
- * Class with data for eudetpvmessages_renderer.
+ * Log in log out steps definitions.
  *
- * @package    local_eudecustom
- * @copyright  2017 Planificacion de Entornos Tecnologicos SL
+ * @package    local_comillasppi
+ * @category   test
+ * @copyright  2018 Planificacion de Entornos Tecnologicos SL
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class local_eudecustom_eudetpvmessages {
-    /** @var int user identifier */
-    public $user;
-    /** @var int course identifier */
-    public $module;
+class behat_local_comillasppi extends behat_base {
 
-    /**
-     * Constructor.
-     *
-     * @param int $user user identifier
-     * @param int $module course identifier
-     */
-    public function __construct($user = '', $module = '') {
-        $this->user = $user;
-        $this->module = $module;
-    }
 }
