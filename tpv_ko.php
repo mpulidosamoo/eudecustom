@@ -15,17 +15,23 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Contains language strings
+ * Moodle url the user is redirected when the tpv denies the payment.
  *
- * @package    local_comillasppi
- * @copyright  2018 Planificación Entornos Tecnológicos {@link http://www.pentec.es/}
+ * @package    local_eudecustom
+ * @copyright  2017 Planificacion de Entornos Tecnologicos SL
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Comillas Políticas de Propiedad Intelectual';
-$string['comillasppi'] = 'Comillas PPI';
-$string['comillasppi_warning'] = 'Texto de aviso';
-$string['comillasppi_warning_desc'] = 'Escriba el texto que quiera que se muestre por pantalla';
-$string['comillasppi_url'] = 'URL';
-$string['comillasppi_url_desc'] = 'URL con información adicional. Para sustituir parte de la url por la id del curso '
-        . 'hae falta escribir el texto idnumber (e.j. http://www.google.com/idnumber)';
+require_once(dirname(__FILE__) . '/../../config.php');
+require_once($CFG->dirroot . '/lib/weblib.php');
+
+require_login(null, false, null, false, true);
+
+global $SESSION;
+
+$SESSION->module = $SESSION->course;
+$SESSION->course = false;
+$SESSION->tpv = false;
+
+// Redirect to another url to clear entry parameters of the tpv client.
+redirect("tpv_ko_message.php");

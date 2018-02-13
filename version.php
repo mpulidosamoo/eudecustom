@@ -17,15 +17,15 @@
 /**
  * Version details.
  *
- * @package local_comillasppi5
- * @copyright  2018 Planificacion de Entornos Tecnologicos SL
+ * @package local_eudecustom
+ * @copyright  2017 Planificacion de Entornos Tecnologicos SL
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2018020600;        // The current plugin version (Date: YYYYMMDDXX).
+$plugin->version   = 2017042900;        // The current plugin version (Date: YYYYMMDDXX).
 $plugin->requires  = 2015051100;        // Requires this Moodle version.
-$plugin->component = 'local_comillasppi'; // Full name of the plugin (used for diagnostics).
+$plugin->component = 'local_eudecustom'; // Full name of the plugin (used for diagnostics).
 $plugin->maturity = MATURITY_STABLE; // This is considered as ready for production sites.
 $plugin->release = 'v1.0.0'; // This is our first version.

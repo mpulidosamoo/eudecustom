@@ -1,0 +1,625 @@
+/* VENTANA FLOTANTE */
+
+#ventana-flotante {
+    display: none;
+    position: fixed; 
+    z-index: 100; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
+}
+
+/* Modal Content/Box */
+#page-local-eudecustom-eudeprofile #contenedor {
+    background-color: #fefefe;
+    margin: 10% auto; 
+    padding: 1.25em;
+    border: 1px solid #888;
+    width: 50%;
+}
+
+/* The Close Button */
+.cerrar {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.cerrar:hover,
+.cerrar:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#page-local-eudecustom-eudeprofile #contenedor #contenido h3 {
+    font-size: 2em;
+}
+
+button, input.form-submit, input[type="button"], input[type="submit"], input[type="reset"] {
+    margin-bottom: 0;
+    font-weight: 300;
+    text-align: center;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    padding: 6px 16px;
+    font-size: 18px;
+    line-height: 1.6;
+    border-radius: 0px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin: 0 0 10px 5px;
+}
+
+/*CSS Eude Profile*/
+
+#page-local-eudecustom-eudeprofile button.abrir{
+    margin: 1px;
+    text-transform: uppercase;
+    color: #565656;
+}
+
+#page-local-eudecustom-eudeprofile button.abrirFechas{
+    margin: 1px;
+    text-transform: uppercase;
+}
+
+#page-local-eudecustom-eudeprofile button.abrir:hover, #page-local-eudecustom-eudeprofile button.abrirFechas:hover{
+    background-color: #6f1a3d;
+    color: #fff;
+}
+
+#page-local-eudecustom-eudeprofile td.cell.c1 {
+    padding: 0;
+    height: 45px;
+}
+
+li.icon-box:hover {
+    background: radial-gradient(closest-side at 65% 50%, #6f193d 50%, #fff )
+}
+
+#page-local-eudecustom-eudeprofile span.eudeprofilespan {
+    padding-left: 10px;
+    vertical-align: -8px;
+}
+
+#page-local-eudecustom-eudeprofile i.abrirFechas {
+    padding: 10px;
+    font-size: 0;
+    padding-top: 0;
+}
+#page-local-eudecustom-eudeprofile i.abrirFechas:before {
+    color: #565656;
+    font-size: 24px;
+}
+
+#page-local-eudecustom-eudeprofile i.abrirFechas:hover {
+    color: rgba(256,256,256,0);
+}
+
+#page-local-eudecustom-eudeprofile i.abrirFechas:hover:before {
+    color: #6f193d;
+}
+#page-local-eudecustom-eudeprofile td.cell.c0{
+    white-space: nowrap; 
+    max-width: 15em; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+
+#page-local-eudecustom-eudeprofile i#info {
+    margin-right: -25px;
+    margin-left: 10px;
+}
+
+#page-local-eudecustom-eudeprofile i#info:hover {
+    cursor: pointer;
+}
+
+/* Extra Eudeprofile CSS */
+.editor_atto .menulateral {
+    display: none;
+}
+
+body#page-site-index {
+    font-size: 0;
+}
+
+#page{
+    font-size:18px;
+}
+
+#page-local-eudecustom-eudeprofile i.abrirFechas {
+    cursor: pointer;
+}
+
+.total {
+    font-weight: bold;
+    border-top: 2px solid #ddd;
+}
+
+/* Eude Calendar */
+
+/*------------------EUDE CALENDAR------------------*/
+#page-local-eudecustom-eudecalendar .ical-link {
+    text-align: center;
+    display: block;
+}
+
+#page-local-eudecustom-eudecalendar div.cd-eventkey {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border-radius: 10px;
+    margin: 0 0.5em;
+}
+#page-local-eudecustom-eudecalendar tr.weekdays th {
+    padding: 1.2em;
+}
+
+#page-local-eudecustom-eudecalendar ul.eventkey {
+    list-style: none;
+}
+
+#page-local-eudecustom-eudecalendar .eventkeymodulebegin {
+    background-color: #00FF00;
+}
+
+#page-local-eudecustom-eudecalendar .eventkeyactivityend {
+    background-color: salmon;
+}
+
+#page-local-eudecustom-eudecalendar .eventkeytestdate {
+    background-color: #FF8000;
+}
+
+#page-local-eudecustom-eudecalendar .eventkeyquestionnairedate {
+    background-color: #323232;
+}
+
+#page-local-eudecustom-eudecalendar .eventkeyintensivemodulebegin {
+    background-color: #0080FF;
+}
+
+#page-local-eudecustom-eudecalendar .eventkeyvacation {
+    background-color: #FFFF00;
+}
+
+#page-local-eudecustom-eudecalendar .eventkeyeudeevent {
+    background-color: #FF0000;
+}
+
+#page-local-eudecustom-eudecalendar .day {
+    height: 14px;
+    font-size: 14px;
+}
+
+#page-local-eudecustom-eudecalendar .btn-default {
+    display: table;
+    margin: 2% auto;
+}
+
+#page-local-eudecustom-eudecalendar .calendar-controls h2 {
+    font-size: 34px;
+    margin-left: 0.5em;
+}
+
+#page-local-eudecustom-eudecalendar .minicalendar {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#page-local-eudecustom-eudecalendar .calendartable {
+    width: 100%;
+}
+
+#page-local-eudecustom-eudecalendar .minicalendar th {
+    height: auto;
+    font-weight: 300;
+}
+
+#page-local-eudecustom-eudecalendar .minicalendar th, .block .minicalendar td {
+    padding: 2px;
+    font-size: 0.8em;
+}
+
+#page-local-eudecustom-eudecalendar .calendartable th, #page-local-eudecustom-eudecalendar .calendartable td {
+    width: 14%;
+    text-align: center;
+    border: 0;
+}
+
+abbr[title], abbr[data-original-title] {
+    cursor: help;
+    border-bottom: 1px dotted #999;
+}
+
+#page-local-eudecustom-eudecalendar .minicalendar td {
+    height: 5em;
+}
+
+#page-local-eudecustom-eudecalendar .minicalendar div.weekend {
+    color: #A00;
+}
+
+#page-local-eudecustom-eudecalendar .minicalendar div.day > a  {
+    width: 100%;
+    height: 10px;
+    display: block;
+    margin: auto;
+    color: #fff;
+}
+
+#page-local-eudecustom-eudecalendar .minicalendar div.today:not(.hasevent) {
+    border-radius: 50px;
+    border: 1px solid #dadada ;
+}
+
+#page-local-eudecustom-eudecalendar .minicalendar div.hasevent {
+    color: #565656;
+    background-color: transparent;
+    border: 1px solid black;
+}
+
+#page-local-eudecustom-eudecalendar .minicalendar div.hasevent.weekend {
+    color: #A00;
+    background-color: transparent;
+}
+
+#page-local-eudecustom-eudecalendar .calendar-event-panel{
+    position: fixed;
+    top: 20%;
+}
+
+
+#page-local-eudecustom-eudecalendar .minicalendar div.hasevent.modulebegin:not(.disabledmodulebegin) {
+    background-color: #00FF00;
+    color: #fff;
+}
+
+#page-local-eudecustom-eudecalendar .minicalendar div.hasevent.modulebegin.disabledmodulebegin {
+    display: none;
+}
+
+#page-local-eudecustom-eudecalendar .minicalendar div.hasevent.activityend:not(.disabledactivityend){
+    background-color: salmon;
+    color: #fff;
+}
+
+#page-local-eudecustom-eudecalendar .minicalendar div.hasevent.activityend.disabledactivityend{
+    display:none;
+}
+
+#page-local-eudecustom-eudecalendar .minicalendar div.hasevent.testdate:not(.disabledtestdate) {
+    background-color: #FF8000;
+    color: #fff;
+}
+
+#page-local-eudecustom-eudecalendar .minicalendar div.hasevent.testdate.disabledtestdate {
+    display: none;
+}
+
+#page-local-eudecustom-eudecalendar .minicalendar div.hasevent.intensivemodulebegin:not(.disabledintensivemodulebegin) {
+    background-color: #0080FF;
+    color: #fff;
+}
+
+#page-local-eudecustom-eudecalendar .minicalendar div.hasevent.intensivemodulebegin.disabledintensivemodulebegin {
+    display: none;
+}
+
+#page-local-eudecustom-eudecalendar .minicalendar div.hasevent.questionnairedate:not(.disabledquestionnairedate) {
+    background-color: #323232;
+	color: #fff;
+}
+
+#page-local-eudecustom-eudecalendar .minicalendar div.hasevent.questionnairedate.disabledquestionnairedate {
+    display: none;
+}
+
+#page-local-eudecustom-eudecalendar .minicalendar div.hasevent.vacation:not(.disabledvacation) {
+    background-color: #FFFF00;
+    color: #fff;
+}
+
+#page-local-eudecustom-eudecalendar .minicalendar div.hasevent.vacation.disabledvacation {
+    display: none;
+}
+
+#page-local-eudecustom-eudecalendar .minicalendar div.hasevent.eudeevent:not(.disabledeudeevent) {
+    background-color: #FF0000;
+    color: #fff;
+}
+
+#page-local-eudecustom-eudecalendar .minicalendar div.hasevent.eudeevent.disabledeudeevent {
+    display: none;
+}
+
+#page-local-eudecustom-eudecalendar .minicalendar div.hasevent.weekend.eudecustomnoevent:not(.disabledeudecustomnoevent) {
+    background-color: transparent;
+    color: #A00;
+}
+
+#page-local-eudecustom-eudecalendar .minicalendar div.start {
+    border-radius: 50px 0px 0px 50px;
+    border-right: none;
+}
+
+#page-local-eudecustom-eudecalendar .minicalendar div.duration {
+    border-radius: 0px;
+    border-left: none;
+    border-right: none;
+}
+
+#page-local-eudecustom-eudecalendar .minicalendar div.duration_finish {
+    border-radius: 0px 50px 50px 0px;
+    border-left: none;
+}
+
+#page-local-eudecustom-eudecalendar .minicalendar div.oneday {
+    border-radius: 50px;
+    border: 1px solid black;
+}
+
+#page-local-eudecustom-eudecalendar .row > div:nth-child(2) .calendar-controls{
+    text-align:right;
+}
+
+#page-local-eudecustom-eudecalendar .daydisplay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1em;
+}
+
+#page-local-eudecustom-eudecalendar .minicalendar td {
+    position: relative;
+    padding-top: 20px;
+}
+
+div[name="normalcourse"], div[name="activitysubmission"], div[name="testsubmission"], div[name="intensivecourse"], div[name="holidays"], div[name="questionnairedate"], div[name="eudeglobalevent"] {
+    min-height: 14px;
+    max-height: 30px;
+    overflow: hidden;
+}	
+
+#page-local-eudecustom-eudecalendar div.yui3-widget.yui3-overlay.yui3-widget-positioned.yui3-widget-stacked.calendar-event-panel.yui3-overlay.yui3-overlay {
+    top: -100px !important;
+    z-index: 2000 !important;
+    position: absolute;
+}
+
+#page-local-eudecustom-eudecalendar #modalwrapper {
+    width: 100%;
+    padding: 150px;
+    position: fixed; 
+    z-index: 100; 
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0px;
+    margin: 0 auto;
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
+}
+
+#page-local-eudecustom-eudecalendar .modalcontent{
+    background-color: #fefefe;
+    margin: 0 auto; 
+    padding: 20px;
+    border: 3px solid #888;
+    border-radius:20px;
+    width: 100%;
+}
+
+#page-local-eudecustom-eudecalendar .modalcontent > div.row {
+    margin: 10px;
+}
+
+    
+#page-local-eudecustom-eudecalendar .inputdate {
+    max-width: 130px;
+    margin-left: 10px;
+}
+
+/*------------------EUDE INTENSIVE MODULE DATES------------------*/
+#page-local-eudecustom-eudeintensivemoduledates .inputdate {
+    cursor: pointer;
+    text-align: center;
+}
+
+#page-local-eudecustom-eudeintensivemoduledates .calldatecell {
+    text-align: center;
+}
+
+#page-local-eudecustom-eudeintensivemoduledates #contenido-fecha-matriculas {
+    margin-top: 10px;
+}
+
+table th {
+    width: auto !important;
+}
+
+
+/*------------------EUDE EVENT LIST------------------*/
+#page-local-eudecustom-eudeeventlist div.cd-eventkey {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border-radius: 10px;
+    margin: 0 0.5em;
+}
+
+#page-local-eudecustom-eudeeventlist .eventkeymodulebegin, #page-local-eudecustom-eudeeventlist div.normalmodule {
+    background-color: #00FF00 !important;
+}
+
+#page-local-eudecustom-eudeeventlist .eventkeyactivityend, #page-local-eudecustom-eudeeventlist div.assignmentevent {
+    background-color: salmon !important;
+}
+
+#page-local-eudecustom-eudeeventlist .eventkeytestdate, #page-local-eudecustom-eudeeventlist div.quizevent {
+    background-color: #FF8000 !important;
+}
+
+#page-local-eudecustom-eudeeventlist .eventkeyquestionnairedate, #page-local-eudecustom-eudeeventlist div.questionnaireevent {
+    background-color: #323232 !important;
+}
+
+#page-local-eudecustom-eudeeventlist .eventkeyintensivemodulebegin, #page-local-eudecustom-eudeeventlist div.intensivemodule {
+    background-color: #0080FF !important;
+}
+
+#page-local-eudecustom-eudeeventlist .eventkeyeudeevent, #page-local-eudecustom-eudeeventlist div.globalevent {
+    background-color: #FF0000 !important;
+}
+
+#page-local-eudecustom-eudeeventlist .inputdate {
+    max-width: 130px;
+    margin-left: 10px;
+}
+
+#page-local-eudecustom-eudeeventlist .datepickerwrapper {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+#page-local-eudecustom-eudeeventlist .printbuttonwrapper {
+    margin-top: 10px;
+}
+
+#page-local-eudecustom-eudeeventlist th.datecolumn {
+    min-width: 100px;
+}
+
+@media print {
+    body {
+	-webkit-print-color-adjust: exact;
+    }
+    #page-local-eudecustom-eudeeventlist tbody th {
+	font-weight: normal;
+    }
+}
+
+/* Teacher control panel view */
+.row-panel-list {
+    overflow-y: auto;
+    height: 250px;
+}
+.eude_panel_bg .panelitem{
+    list-style: none;
+    border-bottom: 1px #6F1A3D solid;
+    background-color: none;
+    margin-bottom: 10px;
+    height: 43px;
+    padding-top: 2px;
+    padding-left: 3px;
+}
+
+.linkselect {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 0;
+    border: 1px #565656 solid;
+    box-shadow: none;
+    background-color: #fff;
+    background-image: none;
+    text-transform: uppercase;
+    text-align: center;
+    cursor: pointer;
+	
+}
+.panelitem a {
+    color: #565656;
+}
+.panelitem a:hover {
+    color: #6F1A3D;
+}
+.eude_panel_bg .itemname {
+    float: left;
+    padding-top: 5px;
+}
+.eude_panel_bg .itemselect {
+    float: right;
+    padding-right: 2px;
+}
+.eude_panel_bg .itemselect-small {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.linkselect option {
+    padding-left: 15px;
+    text-transform: uppercase;
+}
+.eude_panel_bg h4 {
+    text-transform: uppercase;
+}
+
+/* Banner backgorund */
+#page-my-index #page-mast, #page-local-eudecustom-eudeprofile #page-mast, 
+#page-local-eudecustom-eudeteachercontrolpanel #page-mast,
+#page-local-eudecustom-eudecalendar #page-mast, #page-local-eudecustom-eudemessages #page-mast, 
+#page-user-profile #page-mast, #page-grade-report-overview-index #page-mast {
+    background-image: url('../pix/headerbg.jpg');
+    background-position: center;
+    padding: 10px;
+}
+
+#page-my-index #page-mast h1, #page-local-eudecustom-eudeprofile #page-mast h1, 
+#page-local-eudecustom-eudeteachercontrolpanel #page-mast h1,
+#page-local-eudecustom-eudecalendar #page-mast h1, #page-local-eudecustom-eudemessages #page-mast h1, 
+#page-user-profile #page-mast h1, #page-grade-report-overview-index #page-mast h1 {
+    color: #fff;
+    text-shadow: 3px 2px 2px #000;
+    font-weight: 400;
+}
+
+#moodle-page {
+    min-height: 600px;
+}
+
+#page-site-index #page-mast {
+    background-image: none;
+}
+
+/* General fixes */
+#options a:focus, #options a:visited {
+    text-decoration: none;
+    outline: 0;
+}
+
+.previous_section .nav_icon, .next_section .nav_icon {
+    background-color: #6f193d;
+}
+ @media (max-width: 420px) {
+    #mr-nav {
+        height: 75px;
+    }
+	 
+    #snap-home.logo {
+        width: 60%;
+    }
+    .pull-right .snap-login-button {
+        margin-right: -50px !important;
+    }
+ }
+ 
+.nav > li > a {
+    border-right: 1px silver solid !important;
+ }
